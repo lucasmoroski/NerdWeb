@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="UTF-8">
+	<title>El insersor de textitos del Enzolitos!</title>
+
+	<!-- Boostrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- My CSS -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="DOIDERA">
+	<div class="container">
+		<div class="row">
+			<div class="title_wrapper col-sm-12">
+				<h1 class="title--page text-center DOIDERA">O MAGNÍFICO INSERSOR DE TEXTÃO<br/><b class="DOIDERA"> TOP</b></h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-lg-6 col-sm-12 col_wrapper">
+				<div class="row">
+					<h1 class="title--insert__area DOIDERA"></h1>
+				</div>
+				<div class="row">
+					<div class="textarea_wrapper">
+						<textarea class="input_text DOIDERA" type="text" name="insert_area" id="insert_area"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 text-center">
+						<h2 class="options__title text-center DOIDERA">Opções</h2>
+						<button id="bold" class="modifier_item DOIDERA"> <b>Negrito</b> </button>
+						<button id="italic" class="modifier_item DOIDERA"> <i>Itálico</i> </button>
+						<button id="under" class="modifier_item DOIDERA"> <u>Sublinhado</u> </button>
+					</div>
+					<div class="col-md-6">
+						<button id="insert_button" class="insert_button DOIDERA">Inserir</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-6 col-sm-12">
+				<div class="row">
+					<h1 class="DOIDERA"></h1>
+				</div>
+				<div class="row">
+					<div class="textarea_wrapper">
+						<div class="write_area DOIDERA" id="write_area"> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<!-- Boostrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	
+	<!-- My JS -->
+	<script src="insersor.js"></script>
+	<script>
+
+	MAX_CLASSES = 9;
+	MAX_DUR = 5;
+	MIN_DUR = 1
+	classes_doidas = ["rainbow", "increase_x_size", "increase_y_size", "rainbow_bg", "infinite_spin_right", "infinite_spin_left", "rotate_3d", "perspective", "translate"];
+
+	$( document ).ready(function() {
+
+		$(".modifier_item").click( function() {
+			$(this).toggleClass("active");
+		} );
+
+		function DOIDERA() {
+			$(".DOIDERA").each(function() {
+				var elemento = $(this);
+
+				/* Removendo as classes */
+				$(this).attr("style", "");
+
+				var num_classes = Math.floor(Math.random()*MAX_CLASSES+1);
+				var animations = "";
+				var sorted_animations = [];
+
+				for (var j = 0; j < num_classes; j++) {
+					do {
+						/* Sorteia alguma classe */
+						rand_class_id = Math.floor(Math.random()*MAX_CLASSES);
+						rand_class = classes_doidas[rand_class_id];
+					} while ($.inArray(rand_class, sorted_animations) >= 0)
+					sorted_animations.push(rand_class);
+
+					rand_dur = Math.random() * (MAX_DUR - MIN_DUR) + MIN_DUR;
+					animations += rand_class + " " + rand_dur + "s infinite, " ;
+				}
+				// remove ultima virgula
+				animations = animations.substring(0, animations.length - 2); 
+				$(this).attr("style", "animation: " + animations + ";");
+			})
+		}
+
+		$("#insert_button").click( function() {
+
+			/* Pega o texto e coloca no readonly */
+			var text = $("#insert_area").val();
+
+			if ($("#italic").hasClass("active")) {
+				text = "<i>" + text + "</i>";
+			}
+			if ($("#bold").hasClass("active")) {
+				text = "<b>" + text + "</b>";
+			}
+			if ($("#under").hasClass("active")) {
+				text = "<u>" + text + "</u>";
+			}
+
+
+			var old_text = $("#write_area").html();
+			var new_text = old_text + text;
+			$("#write_area").html(new_text)
+
+			/* Limpa o insert */
+			$("#insert_area").val("");	
+
+			DOIDERA();
+		});
+
+	});
+
+	</script>
+</body>
+</html>
